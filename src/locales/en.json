@@ -4,11 +4,8 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "close": "Close",
-    "appName": "Expense Tracker"
-  },
-  "layout": {
-    "desktopPlaceholder": "Desktop view — analytics dashboard",
-    "expensesListPlaceholder": "Your expense list will appear here"
+    "appName": "Expense Tracker",
+    "clearFilter": "Clear filter"
   },
   "nav": {
     "add": "Add",
@@ -36,13 +33,41 @@
     "notePlaceholder": "Note (optional)",
     "addReceipt": "Attach receipt",
     "receiptAttached": "Receipt attached",
+    "receiptAlt": "Receipt photo",
     "save": "Save",
+    "saveChanges": "Save changes",
     "saving": "Saving…",
     "saved": "Expense saved",
     "saveError": "Couldn't save the expense. Please try again.",
     "receiptUploadError": "Expense saved, but the receipt couldn't be uploaded.",
     "loadCategoriesError": "Couldn't load categories.",
     "cash": "Cash",
-    "card": "Card"
+    "card": "Card",
+    "edit": "Edit",
+    "editTitle": "Edit expense",
+    "detailTitle": "Expense detail",
+    "delete": "Delete expense",
+    "deleting": "Deleting…",
+    "deleted": "Expense deleted",
+    "deleteConfirm": "Delete this expense? This can't be undone.",
+    "deleteError": "Couldn't delete the expense. Please try again."
+  },
+  "expenses": {
+    "empty": "No expenses to show yet.",
+    "loadError": "Couldn't load your expenses."
+  },
+  "dashboard": {
+    "byMonth": "By month",
+    "customRange": "Custom range",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "totalSpent": "Total spent",
+    "dailyAverage": "Daily average",
+    "vsPreviousMonth": "vs. {{month}}",
+    "noChange": "No change",
+    "categoryBreakdown": "Spending by category",
+    "topCategories": "Top categories",
+    "trend": "Last {{count}} months",
+    "noExpensesInRange": "No expenses in this period."
   }
 }

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { formatCurrency } from '../../lib/currency'
 
 const SIZE_CLASSES = {
   sm: 'text-lg font-semibold',
@@ -10,10 +11,7 @@ const SIZE_CLASSES = {
 export function AmountDisplay({ amount, size = 'md', className = '' }) {
   const { i18n } = useTranslation()
 
-  const formatted = new Intl.NumberFormat(i18n.resolvedLanguage, {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(amount)
+  const formatted = formatCurrency(amount, i18n.resolvedLanguage)
 
   return (
     <span

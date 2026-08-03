@@ -2,8 +2,8 @@ import { CirclePlus, LogOut, Receipt } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AddExpense } from '../components/shared/AddExpense'
-import { Card } from '../components/shared/Card'
 import { DarkModeToggle } from '../components/shared/DarkModeToggle'
+import { ExpenseList } from '../components/shared/ExpenseList'
 import { LanguageSwitcher } from '../components/shared/LanguageSwitcher'
 import { useAuth } from '../lib/AuthContext'
 
@@ -52,11 +52,7 @@ export function MobileLayout() {
             <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               {t('nav.expenses')}
             </h2>
-            <Card className="flex flex-1 items-center justify-center text-center">
-              <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
-                {t('layout.expensesListPlaceholder')}
-              </p>
-            </Card>
+            <ExpenseList />
           </div>
         )}
       </main>

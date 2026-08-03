@@ -1,9 +1,10 @@
-import { Calendar, Camera, Loader2, StickyNote } from 'lucide-react'
-import { useMemo, useRef, useState } from 'react'
+import { Calendar, Camera, Loader2, StickyNote, Trash2 } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCategories } from '../../hooks/useCategories'
 import { useLastPaymentMethod } from '../../hooks/useLastPaymentMethod'
 import { useAuth } from '../../lib/AuthContext'
+import { getTodayIso } from '../../lib/date'
 import { applyKeypadKey } from '../../lib/keypadInput'
 import { supabase } from '../../lib/supabaseClient'
 import { useToast } from '../../lib/ToastContext'
@@ -12,27 +13,48 @@ import { CategoryIcon } from './CategoryIcon'
 import { NumericKeypad } from './NumericKeypad'
 import { PaymentMethodToggle } from './PaymentMethodToggle'
 
-function getTodayIso() {
-  return new Date().toISOString().slice(0, 10)
-}
-
-export function AddExpense({ onSaved }) {
+export function AddExpense({ expense = null, onSaved, onDeleted }) {
   const { t, i18n } = useTranslation()
   const { user } = useAuth()
   const { showToast } = useToast()
   const { categories, loading: categoriesLoading, error: categoriesError } = useCategories()
-  const [paymentMethod, setPaymentMethod] = useLastPaymentMethod()
+  const isEditing = Boolean(expense)
 
-  const [rawAmount, setRawAmount] = useState('0')
+  const [lastPaymentMethod, setLastPaymentMethod] = useLastPaymentMethod()
+  const [paymentMethod, setPaymentMethod] = useState(() => expense?.payment_method ?? lastPaymentMethod)
+
+  const [rawAmount, setRawAmount] = useState(() => (expense ? String(expense.amount) : '0'))
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedSubcategory, setSelectedSubcategory] = useState(null)
-  const [date, setDate] = useState(getTodayIso)
+  const [date, setDate] = useState(() => expense?.date ?? getTodayIso())
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const [note, setNote] = useState('')
-  const [showNote, setShowNote] = useState(false)
+  const [note, setNote] = useState(() => expense?.note ?? '')
+  const [showNote, setShowNote] = useState(() => Boolean(expense?.note))
   const [receiptFile, setReceiptFile] = useState(null)
+  const [existingReceiptUrl, setExistingReceiptUrl] = useState(() => expense?.receipt_url ?? null)
   const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const fileInputRef = useRef(null)
+  const initializedCategoryRef = useRef(false)
+
+  // Category/subcategory objects (with nested icon/color) only become
+  // available once useCategories resolves, so the edit-mode selection is
+  // restored in an effect rather than at initial state.
+  useEffect(() => {
+    if (!isEditing || initializedCategoryRef.current || categories.length === 0) return
+    const category = categories.find((item) => item.id === expense.category_id)
+    if (category) {
+      setSelectedCategory(category)
+      const subcategory = category.subcategories?.find((item) => item.id === expense.subcategory_id)
+      setSelectedSubcategory(subcategory ?? null)
+    }
+    initializedCategoryRef.current = true
+  }, [isEditing, categories, expense])
+
+  function handlePaymentMethodChange(value) {
+    setPaymentMethod(value)
+    if (!isEditing) setLastPaymentMethod(value)
+  }
 
   const amount = parseFloat(rawAmount) || 0
   const canSave = amount > 0 && selectedCategory && !saving
@@ -61,6 +83,7 @@ export function AddExpense({ onSaved }) {
 
   function handleFileChange(event) {
     setReceiptFile(event.target.files?.[0] ?? null)
+    setExistingReceiptUrl(null)
   }
 
   function resetForm() {
@@ -79,8 +102,8 @@ export function AddExpense({ onSaved }) {
     if (!canSave) return
 
     setSaving(true)
-    const expenseId = crypto.randomUUID()
-    let receiptPath = null
+    const expenseId = expense?.id ?? crypto.randomUUID()
+    let receiptPath = existingReceiptUrl
 
     if (receiptFile) {
       const path = `${user.id}/${expenseId}.jpg`
@@ -95,8 +118,7 @@ export function AddExpense({ onSaved }) {
       }
     }
 
-    const { error: insertError } = await supabase.from('expenses').insert({
-      id: expenseId,
+    const payload = {
       user_id: user.id,
       category_id: selectedCategory.id,
       subcategory_id: selectedSubcategory?.id ?? null,
@@ -105,25 +127,51 @@ export function AddExpense({ onSaved }) {
       payment_method: paymentMethod,
       note: note.trim() || null,
       receipt_url: receiptPath,
-    })
+    }
+
+    const { error: saveError } = isEditing
+      ? await supabase.from('expenses').update(payload).eq('id', expense.id)
+      : await supabase.from('expenses').insert({ id: expenseId, ...payload })
 
     setSaving(false)
 
-    if (insertError) {
+    if (saveError) {
       showToast(t('expense.saveError'), 'error')
       return
     }
 
     showToast(t('expense.saved'), 'success')
-    resetForm()
-    onSaved?.()
+    if (isEditing) {
+      onSaved?.()
+    } else {
+      resetForm()
+      onSaved?.()
+    }
+  }
+
+  async function handleDelete() {
+    if (!isEditing || deleting) return
+    // eslint-disable-next-line no-alert
+    if (!window.confirm(t('expense.deleteConfirm'))) return
+
+    setDeleting(true)
+    const { error: deleteError } = await supabase.from('expenses').delete().eq('id', expense.id)
+    setDeleting(false)
+
+    if (deleteError) {
+      showToast(t('expense.deleteError'), 'error')
+      return
+    }
+
+    showToast(t('expense.deleted'), 'success')
+    onDeleted?.()
   }
 
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
         <AmountDisplay amount={amount} size="xl" />
-        <PaymentMethodToggle value={paymentMethod} onChange={setPaymentMethod} />
+        <PaymentMethodToggle value={paymentMethod} onChange={handlePaymentMethodChange} />
       </div>
 
       <div className="flex flex-col gap-2">
@@ -217,7 +265,7 @@ export function AddExpense({ onSaved }) {
             className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-3 py-1.5 font-medium text-neutral-600 dark:border-neutral-700 dark:text-neutral-300"
           >
             <Camera size={14} />
-            {receiptFile ? t('expense.receiptAttached') : t('expense.addReceipt')}
+            {receiptFile || existingReceiptUrl ? t('expense.receiptAttached') : t('expense.addReceipt')}
           </button>
           <input
             ref={fileInputRef}
@@ -260,8 +308,20 @@ export function AddExpense({ onSaved }) {
         className="flex items-center justify-center gap-2 rounded-2xl bg-accent-600 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition-colors hover:bg-accent-700 disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-500 dark:disabled:bg-neutral-800 dark:disabled:text-neutral-500"
       >
         {saving ? <Loader2 size={18} className="animate-spin" /> : null}
-        {saving ? t('expense.saving') : t('expense.save')}
+        {saving ? t('expense.saving') : isEditing ? t('expense.saveChanges') : t('expense.save')}
       </button>
+
+      {isEditing ? (
+        <button
+          type="button"
+          onClick={handleDelete}
+          disabled={deleting}
+          className="flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:text-neutral-400 dark:text-red-400 dark:hover:bg-red-950/40"
+        >
+          {deleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+          {deleting ? t('expense.deleting') : t('expense.delete')}
+        </button>
+      ) : null}
     </div>
   )
 }

@@ -2,10 +2,11 @@ import { LayoutDashboard, LogOut, Plus, Receipt } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AddExpense } from '../components/shared/AddExpense'
-import { Card } from '../components/shared/Card'
 import { DarkModeToggle } from '../components/shared/DarkModeToggle'
+import { ExpenseList } from '../components/shared/ExpenseList'
 import { LanguageSwitcher } from '../components/shared/LanguageSwitcher'
 import { Modal } from '../components/shared/Modal'
+import { Dashboard } from '../components/desktop/Dashboard'
 import { useAuth } from '../lib/AuthContext'
 
 const SCREENS = {
@@ -23,6 +24,26 @@ export function DesktopLayout() {
   const { signOut } = useAuth()
   const [screen, setScreen] = useState(SCREENS.dashboard)
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false)
+  const [expensesFilter, setExpensesFilter] = useState(null)
+  // Bumped whenever an expense is added from the sidebar modal, so the
+  // currently visible screen (which doesn't remount when the modal closes)
+  // refetches instead of showing stale data.
+  const [expensesVersion, setExpensesVersion] = useState(0)
+
+  function handleExpenseAdded() {
+    setIsAddExpenseOpen(false)
+    setExpensesVersion((current) => current + 1)
+  }
+
+  function handleNavClick(nextScreen) {
+    if (nextScreen === SCREENS.expenses) setExpensesFilter(null)
+    setScreen(nextScreen)
+  }
+
+  function handleSelectCategory(category, range) {
+    setExpensesFilter({ categoryId: category.id, startDate: range.start, endDate: range.end, label: range.label })
+    setScreen(SCREENS.expenses)
+  }
 
   return (
     <div className="flex min-h-screen bg-white dark:bg-neutral-950">
@@ -47,7 +68,7 @@ export function DesktopLayout() {
               <button
                 key={itemScreen}
                 type="button"
-                onClick={() => setScreen(itemScreen)}
+                onClick={() => handleNavClick(itemScreen)}
                 aria-current={isActive ? 'page' : undefined}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
@@ -79,21 +100,20 @@ export function DesktopLayout() {
       <main className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-5xl px-10 py-10">
           {screen === SCREENS.dashboard ? (
-            <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
-              <p className="text-lg font-medium text-neutral-600 dark:text-neutral-300">
-                {t('layout.desktopPlaceholder')}
-              </p>
-            </div>
+            <Dashboard onSelectCategory={handleSelectCategory} refreshKey={expensesVersion} />
           ) : (
             <div className="flex flex-col gap-4">
               <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
                 {t('nav.expenses')}
               </h2>
-              <Card className="flex min-h-[40vh] items-center justify-center text-center">
-                <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
-                  {t('layout.expensesListPlaceholder')}
-                </p>
-              </Card>
+              <ExpenseList
+                categoryId={expensesFilter?.categoryId}
+                startDate={expensesFilter?.startDate}
+                endDate={expensesFilter?.endDate}
+                filterLabel={expensesFilter?.label}
+                onClearFilter={() => setExpensesFilter(null)}
+                refreshKey={expensesVersion}
+              />
             </div>
           )}
         </div>
@@ -104,7 +124,7 @@ export function DesktopLayout() {
         onClose={() => setIsAddExpenseOpen(false)}
         title={t('nav.addExpense')}
       >
-        <AddExpense onSaved={() => setIsAddExpenseOpen(false)} />
+        <AddExpense onSaved={handleExpenseAdded} />
       </Modal>
     </div>
   )

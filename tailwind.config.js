@@ -38,12 +38,16 @@ export default {
         },
         // Per-category colors, matching the `color` column seeded in the
         // `categories` table (supabase/seed.sql) — keep these two in sync.
+        // Chroma/lightness tuned (same hue families as the original pastel
+        // set) so all 5 clear the dataviz skill's colorblind-safety
+        // validator (adjacent + all-pairs, deutan/protan) — see
+        // scripts/validate_palette.js in the dataviz skill.
         category: {
-          comida: '#8BA888',
-          compras: '#A88BA0',
-          ocio: '#7A9BA8',
-          viajes: '#B89550',
-          suscripciones: '#B87D6B',
+          comida: '#6bb888',
+          compras: '#c796d2',
+          ocio: '#1f8dae',
+          viajes: '#b48637',
+          suscripciones: '#934d37',
         },
       },
     },

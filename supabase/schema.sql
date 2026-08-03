@@ -82,6 +82,14 @@ create policy "Users manage their own expenses"
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
+-- RLS policies only decide which *rows* a role can see/touch — Postgres
+-- still requires an explicit GRANT on the table/columns for the operation
+-- to be allowed at all. Without these, every query above 403s for the
+-- `authenticated` role regardless of the policies matching.
+grant select on categories to authenticated;
+grant select on subcategories to authenticated;
+grant select, insert, update, delete on expenses to authenticated;
+
 -- ---------------------------------------------------------------------------
 -- Storage: receipts bucket
 -- Files are stored at {user_id}/{expense_id}.jpg so ownership can be checked

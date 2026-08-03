@@ -4,11 +4,8 @@
     "cancel": "Cancelar",
     "delete": "Eliminar",
     "close": "Cerrar",
-    "appName": "Gestor de Gastos"
-  },
-  "layout": {
-    "desktopPlaceholder": "Vista de escritorio — panel de análisis",
-    "expensesListPlaceholder": "Aquí aparecerá tu lista de gastos"
+    "appName": "Gestor de Gastos",
+    "clearFilter": "Quitar filtro"
   },
   "nav": {
     "add": "Añadir",
@@ -36,13 +33,41 @@
     "notePlaceholder": "Nota (opcional)",
     "addReceipt": "Adjuntar ticket",
     "receiptAttached": "Ticket adjunto",
+    "receiptAlt": "Foto del ticket",
     "save": "Guardar",
+    "saveChanges": "Guardar cambios",
     "saving": "Guardando…",
     "saved": "Gasto guardado",
     "saveError": "No se pudo guardar el gasto. Inténtalo de nuevo.",
     "receiptUploadError": "Gasto guardado, pero no se pudo subir el ticket.",
     "loadCategoriesError": "No se pudieron cargar las categorías.",
     "cash": "Efectivo",
-    "card": "Tarjeta"
+    "card": "Tarjeta",
+    "edit": "Editar",
+    "editTitle": "Editar gasto",
+    "detailTitle": "Detalle del gasto",
+    "delete": "Eliminar gasto",
+    "deleting": "Eliminando…",
+    "deleted": "Gasto eliminado",
+    "deleteConfirm": "¿Eliminar este gasto? Esta acción no se puede deshacer.",
+    "deleteError": "No se pudo eliminar el gasto. Inténtalo de nuevo."
+  },
+  "expenses": {
+    "empty": "Todavía no hay gastos que mostrar.",
+    "loadError": "No se pudieron cargar tus gastos."
+  },
+  "dashboard": {
+    "byMonth": "Por mes",
+    "customRange": "Rango personalizado",
+    "previousMonth": "Mes anterior",
+    "nextMonth": "Mes siguiente",
+    "totalSpent": "Total gastado",
+    "dailyAverage": "Media diaria",
+    "vsPreviousMonth": "vs. {{month}}",
+    "noChange": "Sin cambios",
+    "categoryBreakdown": "Gasto por categoría",
+    "topCategories": "Categorías principales",
+    "trend": "Últimos {{count}} meses",
+    "noExpensesInRange": "No hay gastos en este período."
   }
 }

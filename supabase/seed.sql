@@ -3,12 +3,15 @@
 -- Icon names are Lucide's kebab-case identifiers (https://lucide.dev/icons),
 -- matching lucide-react's dynamicIconImports keys.
 
+-- Colors tuned to clear the dataviz skill's colorblind-safety validator
+-- (deutan/protan, adjacent + all-pairs) while keeping each category's
+-- original hue family — see tailwind.config.js's `category` block.
 insert into categories (name, icon, color) values
-  ('Comida',         'utensils-crossed', '#8BA888'),
-  ('Compras',        'shopping-bag',     '#A88BA0'),
-  ('Ocio',           'party-popper',     '#7A9BA8'),
-  ('Viajes',         'plane',            '#B89550'),
-  ('Suscripciones',  'repeat',           '#B87D6B')
+  ('Comida',         'utensils-crossed', '#6bb888'),
+  ('Compras',        'shopping-bag',     '#c796d2'),
+  ('Ocio',           'party-popper',     '#1f8dae'),
+  ('Viajes',         'plane',            '#b48637'),
+  ('Suscripciones',  'repeat',           '#934d37')
 on conflict (name) do update set icon = excluded.icon, color = excluded.color;
 
 insert into subcategories (category_id, name, icon)
