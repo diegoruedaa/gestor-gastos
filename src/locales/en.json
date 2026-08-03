@@ -3,11 +3,20 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete",
+    "close": "Close",
     "appName": "Expense Tracker"
   },
   "layout": {
     "mobilePlaceholder": "Mobile view — quick expense entry",
-    "desktopPlaceholder": "Desktop view — analytics dashboard"
+    "desktopPlaceholder": "Desktop view — analytics dashboard",
+    "expensesListPlaceholder": "Your expense list will appear here",
+    "addExpenseModalPlaceholder": "The add expense form will be available soon"
+  },
+  "nav": {
+    "add": "Add",
+    "addExpense": "Add expense",
+    "dashboard": "Dashboard",
+    "expenses": "Expenses"
   },
   "settings": {
     "darkMode": "Dark mode",

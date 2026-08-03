@@ -3,11 +3,20 @@
     "save": "Guardar",
     "cancel": "Cancelar",
     "delete": "Eliminar",
+    "close": "Cerrar",
     "appName": "Gestor de Gastos"
   },
   "layout": {
     "mobilePlaceholder": "Vista móvil — registro rápido de gastos",
-    "desktopPlaceholder": "Vista de escritorio — panel de análisis"
+    "desktopPlaceholder": "Vista de escritorio — panel de análisis",
+    "expensesListPlaceholder": "Aquí aparecerá tu lista de gastos",
+    "addExpenseModalPlaceholder": "El formulario de añadir gasto estará disponible próximamente"
+  },
+  "nav": {
+    "add": "Añadir",
+    "addExpense": "Añadir gasto",
+    "dashboard": "Dashboard",
+    "expenses": "Gastos"
   },
   "settings": {
     "darkMode": "Modo oscuro",

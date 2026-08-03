@@ -23,7 +23,7 @@ join (values
   ('Compras', 'Deporte',      'dumbbell'),
   ('Compras', 'Videojuegos',  'gamepad-2'),
   ('Compras', 'Regalos',      'gift'),
-  ('Compras', 'Otros',        'more-horizontal'),
+  ('Compras', 'Otros',        'ellipsis'),
 
   ('Viajes',  'Transporte',        'car'),
   ('Viajes',  'Alojamiento',       'bed-double'),
