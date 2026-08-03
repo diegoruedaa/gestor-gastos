@@ -36,10 +36,15 @@ export default {
           800: '#1c3a3e',
           900: '#152d30',
         },
-        // Per-category colors — intentionally left empty for now. Each of
-        // the 5 expense categories will get its own pastel/muted hue here
-        // (e.g. category: { food: '#...', transport: '#...', ... }).
-        category: {},
+        // Per-category colors, matching the `color` column seeded in the
+        // `categories` table (supabase/seed.sql) — keep these two in sync.
+        category: {
+          comida: '#8BA888',
+          compras: '#A88BA0',
+          ocio: '#7A9BA8',
+          viajes: '#B89550',
+          suscripciones: '#B87D6B',
+        },
       },
     },
   },
