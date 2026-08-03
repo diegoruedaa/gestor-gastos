@@ -1,0 +1,16 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "appName": "Expense Tracker"
+  },
+  "layout": {
+    "mobilePlaceholder": "Mobile view — quick expense entry",
+    "desktopPlaceholder": "Desktop view — analytics dashboard"
+  },
+  "settings": {
+    "darkMode": "Dark mode",
+    "language": "Language"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "appName": "Gestor de Gastos"
+  },
+  "layout": {
+    "mobilePlaceholder": "Vista móvil — registro rápido de gastos",
+    "desktopPlaceholder": "Vista de escritorio — panel de análisis"
+  },
+  "settings": {
+    "darkMode": "Modo oscuro",
+    "language": "Idioma"
+  }
+}
