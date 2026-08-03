@@ -19,6 +19,7 @@
     "darkMode": "Modo oscuro",
     "language": "Idioma",
     "changePassword": "Cambiar contraseña",
+    "currentPassword": "Contraseña actual",
     "newPassword": "Nueva contraseña",
     "confirmPassword": "Confirmar contraseña",
     "updatePassword": "Actualizar contraseña",
@@ -26,6 +27,7 @@
     "passwordUpdated": "Contraseña actualizada",
     "passwordMismatch": "Las contraseñas no coinciden",
     "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+    "currentPasswordIncorrect": "La contraseña actual no es correcta",
     "passwordUpdateError": "No se pudo actualizar la contraseña. Inténtalo de nuevo."
   },
   "filters": {

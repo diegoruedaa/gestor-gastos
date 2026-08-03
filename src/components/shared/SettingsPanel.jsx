@@ -15,6 +15,8 @@ const LANGUAGES = [
 function ChangePasswordForm() {
   const { t } = useTranslation()
   const { showToast } = useToast()
+  const { user, signIn } = useAuth()
+  const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [saving, setSaving] = useState(false)
@@ -31,6 +33,14 @@ function ChangePasswordForm() {
     }
 
     setSaving(true)
+
+    const { error: reauthError } = await signIn(user.email, currentPassword)
+    if (reauthError) {
+      setSaving(false)
+      showToast(t('settings.currentPasswordIncorrect'), 'error')
+      return
+    }
+
     const { error } = await supabase.auth.updateUser({ password: newPassword })
     setSaving(false)
 
@@ -40,12 +50,21 @@ function ChangePasswordForm() {
     }
 
     showToast(t('settings.passwordUpdated'), 'success')
+    setCurrentPassword('')
     setNewPassword('')
     setConfirmPassword('')
   }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      <input
+        type="password"
+        value={currentPassword}
+        onChange={(event) => setCurrentPassword(event.target.value)}
+        placeholder={t('settings.currentPassword')}
+        autoComplete="current-password"
+        className="rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-accent-500 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
+      />
       <input
         type="password"
         value={newPassword}
@@ -64,7 +83,7 @@ function ChangePasswordForm() {
       />
       <button
         type="submit"
-        disabled={saving || !newPassword || !confirmPassword}
+        disabled={saving || !currentPassword || !newPassword || !confirmPassword}
         className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-accent-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-700 disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-500 dark:disabled:bg-neutral-800 dark:disabled:text-neutral-500"
       >
         {saving ? t('settings.updatingPassword') : t('settings.updatePassword')}
