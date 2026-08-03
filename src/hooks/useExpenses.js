@@ -7,7 +7,7 @@ import { supabase } from '../lib/supabaseClient'
 // `startDate`/`endDate` are inclusive 'YYYY-MM-DD' strings. Pass
 // `enabled: false` to skip fetching (e.g. a comparison range that doesn't
 // apply yet) without breaking the rules of hooks at the call site.
-export function useExpenses({ startDate, endDate, categoryId, enabled = true } = {}) {
+export function useExpenses({ startDate, endDate, categoryId, subcategoryId, enabled = true } = {}) {
   const { user } = useAuth()
   const [expenses, setExpenses] = useState([])
   const [loading, setLoading] = useState(true)
@@ -34,6 +34,7 @@ export function useExpenses({ startDate, endDate, categoryId, enabled = true } =
       if (startDate) query = query.gte('date', startDate)
       if (endDate) query = query.lte('date', endDate)
       if (categoryId) query = query.eq('category_id', categoryId)
+      if (subcategoryId) query = query.eq('subcategory_id', subcategoryId)
 
       const { data, error: fetchError } = await query
       if (cancelled) return
@@ -51,7 +52,7 @@ export function useExpenses({ startDate, endDate, categoryId, enabled = true } =
     return () => {
       cancelled = true
     }
-  }, [user, startDate, endDate, categoryId, enabled, reloadToken])
+  }, [user, startDate, endDate, categoryId, subcategoryId, enabled, reloadToken])
 
   const refetch = useCallback(() => setReloadToken((token) => token + 1), [])
 

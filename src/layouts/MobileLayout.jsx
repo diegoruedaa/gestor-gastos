@@ -1,11 +1,9 @@
-import { CirclePlus, LogOut, Receipt } from 'lucide-react'
+import { CirclePlus, Receipt } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AddExpense } from '../components/shared/AddExpense'
-import { DarkModeToggle } from '../components/shared/DarkModeToggle'
 import { ExpenseList } from '../components/shared/ExpenseList'
-import { LanguageSwitcher } from '../components/shared/LanguageSwitcher'
-import { useAuth } from '../lib/AuthContext'
+import { SettingsPanel } from '../components/shared/SettingsPanel'
 
 const SCREENS = {
   add: 'add',
@@ -19,7 +17,6 @@ const NAV_ITEMS = [
 
 export function MobileLayout() {
   const { t } = useTranslation()
-  const { signOut } = useAuth()
   const [screen, setScreen] = useState(SCREENS.add)
 
   return (
@@ -28,18 +25,7 @@ export function MobileLayout() {
         <h1 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
           {t('common.appName')}
         </h1>
-        <div className="flex items-center gap-2">
-          <LanguageSwitcher />
-          <DarkModeToggle iconOnly />
-          <button
-            type="button"
-            onClick={signOut}
-            aria-label={t('auth.signOut')}
-            className="rounded-full p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
-          >
-            <LogOut size={18} />
-          </button>
-        </div>
+        <SettingsPanel iconOnly />
       </header>
 
       <main className="flex flex-1 flex-col overflow-y-auto px-4 pb-24">

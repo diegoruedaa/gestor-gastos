@@ -38,6 +38,7 @@ function groupByMonth(expenses, locale) {
 
 export function ExpenseList({
   categoryId = null,
+  subcategoryId = null,
   startDate = null,
   endDate = null,
   filterLabel = null,
@@ -45,7 +46,7 @@ export function ExpenseList({
   refreshKey = null,
 }) {
   const { t, i18n } = useTranslation()
-  const { expenses, loading, error, refetch } = useExpenses({ categoryId, startDate, endDate })
+  const { expenses, loading, error, refetch } = useExpenses({ categoryId, subcategoryId, startDate, endDate })
   const [selectedExpense, setSelectedExpense] = useState(null)
 
   // `refreshKey` lets a parent (e.g. the sidebar's "add expense" modal)

@@ -6,6 +6,25 @@ import { supabase } from '../lib/supabaseClient'
 // client-side against this fixed list; anything unrecognized sorts last.
 const CATEGORY_ORDER = ['Comida', 'Compras', 'Ocio', 'Viajes', 'Suscripciones']
 
+// Same idea for subcategories, but the order is only meaningful within a
+// category (see supabase/seed.sql). Categories not listed here keep
+// whatever order the query returns (alphabetical, via `.order('name', ...)`).
+const SUBCATEGORY_ORDER = {
+  Comida: ['Supermercado', 'Restaurantes', 'Delivery'],
+  Compras: ['Ropa', 'Videojuegos', 'Deporte', 'Regalos', 'Otros'],
+}
+
+function sortSubcategories(category) {
+  const order = SUBCATEGORY_ORDER[category.name]
+  if (!order || !category.subcategories) return category
+  return {
+    ...category,
+    subcategories: [...category.subcategories].sort(
+      (a, b) => order.indexOf(a.name) - order.indexOf(b.name),
+    ),
+  }
+}
+
 export function useCategories() {
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
@@ -26,9 +45,9 @@ export function useCategories() {
       if (fetchError) {
         setError(fetchError.message)
       } else {
-        const sorted = [...data].sort(
-          (a, b) => CATEGORY_ORDER.indexOf(a.name) - CATEGORY_ORDER.indexOf(b.name),
-        )
+        const sorted = [...data]
+          .sort((a, b) => CATEGORY_ORDER.indexOf(a.name) - CATEGORY_ORDER.indexOf(b.name))
+          .map(sortSubcategories)
         setCategories(sorted)
         setError(null)
       }

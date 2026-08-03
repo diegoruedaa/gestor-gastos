@@ -1,7 +1,7 @@
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { formatCurrency, formatCurrencyCompact } from '../../lib/currency'
 
-const BAR_COLOR = '#2b5a60' // accent-600 — a single series carries the app's accent, not a category hue
+const LINE_COLOR = '#2b5a60' // accent-600 — a single series carries the app's accent, not a category hue
 
 function TrendTooltip({ active, payload, locale }) {
   if (!active || !payload?.length) return null
@@ -26,7 +26,7 @@ export function MonthlyTrendChart({ data, locale, isDark }) {
   return (
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+        <LineChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
           <CartesianGrid vertical={false} stroke={gridColor} />
           <XAxis
             dataKey="label"
@@ -44,10 +44,18 @@ export function MonthlyTrendChart({ data, locale, isDark }) {
           />
           <Tooltip
             content={<TrendTooltip locale={locale} />}
-            cursor={{ fill: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)' }}
+            cursor={{ stroke: gridColor, strokeWidth: 1 }}
           />
-          <Bar dataKey="total" fill={BAR_COLOR} radius={[4, 4, 0, 0]} maxBarSize={24} isAnimationActive={false} />
-        </BarChart>
+          <Line
+            type="monotone"
+            dataKey="total"
+            stroke={LINE_COLOR}
+            strokeWidth={2}
+            dot={{ r: 4, fill: LINE_COLOR, strokeWidth: 2, stroke: isDark ? '#09090b' : '#ffffff' }}
+            activeDot={{ r: 5, fill: LINE_COLOR, strokeWidth: 2, stroke: isDark ? '#09090b' : '#ffffff' }}
+            isAnimationActive={false}
+          />
+        </LineChart>
       </ResponsiveContainer>
     </div>
   )

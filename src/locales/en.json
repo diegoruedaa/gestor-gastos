@@ -14,8 +14,25 @@
     "expenses": "Expenses"
   },
   "settings": {
+    "title": "Settings",
+    "openSettings": "Open settings",
     "darkMode": "Dark mode",
-    "language": "Language"
+    "language": "Language",
+    "changePassword": "Change password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "updatePassword": "Update password",
+    "updatingPassword": "Updating…",
+    "passwordUpdated": "Password updated",
+    "passwordMismatch": "Passwords don't match",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "passwordUpdateError": "Couldn't update the password. Please try again."
+  },
+  "filters": {
+    "category": "Category",
+    "subcategory": "Subcategory",
+    "allCategories": "All categories",
+    "allSubcategories": "All subcategories"
   },
   "auth": {
     "email": "Email",
@@ -68,6 +85,7 @@
     "categoryBreakdown": "Spending by category",
     "topCategories": "Top categories",
     "trend": "Last {{count}} months",
-    "noExpensesInRange": "No expenses in this period."
+    "noExpensesInRange": "No expenses in this period.",
+    "topSubcategories": "Top subcategories"
   }
 }

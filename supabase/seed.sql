@@ -23,8 +23,8 @@ join (values
   ('Comida',  'Delivery',     'bike'),
 
   ('Compras', 'Ropa',         'shirt'),
-  ('Compras', 'Deporte',      'dumbbell'),
   ('Compras', 'Videojuegos',  'gamepad-2'),
+  ('Compras', 'Deporte',      'dumbbell'),
   ('Compras', 'Regalos',      'gift'),
   ('Compras', 'Otros',        'ellipsis'),
 
