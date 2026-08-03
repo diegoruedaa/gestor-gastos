@@ -7,10 +7,8 @@
     "appName": "Expense Tracker"
   },
   "layout": {
-    "mobilePlaceholder": "Mobile view — quick expense entry",
     "desktopPlaceholder": "Desktop view — analytics dashboard",
-    "expensesListPlaceholder": "Your expense list will appear here",
-    "addExpenseModalPlaceholder": "The add expense form will be available soon"
+    "expensesListPlaceholder": "Your expense list will appear here"
   },
   "nav": {
     "add": "Add",
@@ -21,5 +19,30 @@
   "settings": {
     "darkMode": "Dark mode",
     "language": "Language"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "submitSignIn": "Sign in",
+    "submitSignUp": "Sign up",
+    "toggleToSignUp": "Don't have an account? Sign up",
+    "toggleToSignIn": "Already have an account? Sign in",
+    "signOut": "Sign out",
+    "signUpSuccess": "Account created. Check your email to confirm access."
+  },
+  "expense": {
+    "today": "Today",
+    "addNote": "Add note",
+    "notePlaceholder": "Note (optional)",
+    "addReceipt": "Attach receipt",
+    "receiptAttached": "Receipt attached",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Expense saved",
+    "saveError": "Couldn't save the expense. Please try again.",
+    "receiptUploadError": "Expense saved, but the receipt couldn't be uploaded.",
+    "loadCategoriesError": "Couldn't load categories.",
+    "cash": "Cash",
+    "card": "Card"
   }
 }

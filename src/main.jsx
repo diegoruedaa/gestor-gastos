@@ -9,9 +9,15 @@ import '@fontsource/inter/700.css'
 import './lib/i18n'
 import './index.css'
 import App from './App.jsx'
+import { AuthProvider } from './lib/AuthContext'
+import { ToastProvider } from './lib/ToastContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <AuthProvider>
+      <ToastProvider>
+        <App />
+      </ToastProvider>
+    </AuthProvider>
   </StrictMode>,
 )

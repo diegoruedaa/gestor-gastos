@@ -7,10 +7,8 @@
     "appName": "Gestor de Gastos"
   },
   "layout": {
-    "mobilePlaceholder": "Vista móvil — registro rápido de gastos",
     "desktopPlaceholder": "Vista de escritorio — panel de análisis",
-    "expensesListPlaceholder": "Aquí aparecerá tu lista de gastos",
-    "addExpenseModalPlaceholder": "El formulario de añadir gasto estará disponible próximamente"
+    "expensesListPlaceholder": "Aquí aparecerá tu lista de gastos"
   },
   "nav": {
     "add": "Añadir",
@@ -21,5 +19,30 @@
   "settings": {
     "darkMode": "Modo oscuro",
     "language": "Idioma"
+  },
+  "auth": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submitSignIn": "Entrar",
+    "submitSignUp": "Registrarme",
+    "toggleToSignUp": "¿No tienes cuenta? Regístrate",
+    "toggleToSignIn": "¿Ya tienes cuenta? Inicia sesión",
+    "signOut": "Cerrar sesión",
+    "signUpSuccess": "Cuenta creada. Revisa tu correo para confirmar el acceso."
+  },
+  "expense": {
+    "today": "Hoy",
+    "addNote": "Añadir nota",
+    "notePlaceholder": "Nota (opcional)",
+    "addReceipt": "Adjuntar ticket",
+    "receiptAttached": "Ticket adjunto",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "saved": "Gasto guardado",
+    "saveError": "No se pudo guardar el gasto. Inténtalo de nuevo.",
+    "receiptUploadError": "Gasto guardado, pero no se pudo subir el ticket.",
+    "loadCategoriesError": "No se pudieron cargar las categorías.",
+    "cash": "Efectivo",
+    "card": "Tarjeta"
   }
 }

@@ -1,9 +1,11 @@
-import { CirclePlus, Receipt } from 'lucide-react'
+import { CirclePlus, LogOut, Receipt } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { AddExpense } from '../components/shared/AddExpense'
 import { Card } from '../components/shared/Card'
 import { DarkModeToggle } from '../components/shared/DarkModeToggle'
 import { LanguageSwitcher } from '../components/shared/LanguageSwitcher'
+import { useAuth } from '../lib/AuthContext'
 
 const SCREENS = {
   add: 'add',
@@ -17,6 +19,7 @@ const NAV_ITEMS = [
 
 export function MobileLayout() {
   const { t } = useTranslation()
+  const { signOut } = useAuth()
   const [screen, setScreen] = useState(SCREENS.add)
 
   return (
@@ -28,15 +31,21 @@ export function MobileLayout() {
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <DarkModeToggle iconOnly />
+          <button
+            type="button"
+            onClick={signOut}
+            aria-label={t('auth.signOut')}
+            className="rounded-full p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
+          >
+            <LogOut size={18} />
+          </button>
         </div>
       </header>
 
-      <main className="flex flex-1 flex-col px-4 pb-24">
+      <main className="flex flex-1 flex-col overflow-y-auto px-4 pb-24">
         {screen === SCREENS.add ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-            <p className="text-base font-medium text-neutral-600 dark:text-neutral-300">
-              {t('layout.mobilePlaceholder')}
-            </p>
+          <div className="flex flex-1 flex-col pt-4">
+            <AddExpense />
           </div>
         ) : (
           <div className="flex flex-1 flex-col gap-3 pt-4">

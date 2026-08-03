@@ -1,10 +1,12 @@
-import { LayoutDashboard, Plus, Receipt } from 'lucide-react'
+import { LayoutDashboard, LogOut, Plus, Receipt } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { AddExpense } from '../components/shared/AddExpense'
 import { Card } from '../components/shared/Card'
 import { DarkModeToggle } from '../components/shared/DarkModeToggle'
 import { LanguageSwitcher } from '../components/shared/LanguageSwitcher'
 import { Modal } from '../components/shared/Modal'
+import { useAuth } from '../lib/AuthContext'
 
 const SCREENS = {
   dashboard: 'dashboard',
@@ -18,6 +20,7 @@ const NAV_ITEMS = [
 
 export function DesktopLayout() {
   const { t } = useTranslation()
+  const { signOut } = useAuth()
   const [screen, setScreen] = useState(SCREENS.dashboard)
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false)
 
@@ -62,6 +65,14 @@ export function DesktopLayout() {
         <div className="mt-auto flex flex-col gap-3 px-2 pt-6">
           <LanguageSwitcher />
           <DarkModeToggle />
+          <button
+            type="button"
+            onClick={signOut}
+            className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-900"
+          >
+            <LogOut size={18} />
+            {t('auth.signOut')}
+          </button>
         </div>
       </aside>
 
@@ -93,9 +104,7 @@ export function DesktopLayout() {
         onClose={() => setIsAddExpenseOpen(false)}
         title={t('nav.addExpense')}
       >
-        <p className="text-sm text-neutral-600 dark:text-neutral-300">
-          {t('layout.addExpenseModalPlaceholder')}
-        </p>
+        <AddExpense onSaved={() => setIsAddExpenseOpen(false)} />
       </Modal>
     </div>
   )

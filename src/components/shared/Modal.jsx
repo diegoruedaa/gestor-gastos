@@ -27,7 +27,7 @@ export function Modal({ open, onClose, title, children }) {
         aria-modal="true"
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
-        className="w-full max-w-md rounded-2xl border border-neutral-200 bg-white p-6 shadow-lg dark:border-neutral-800 dark:bg-neutral-900"
+        className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-neutral-200 bg-white p-6 shadow-lg dark:border-neutral-800 dark:bg-neutral-900"
       >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">{title}</h2>
