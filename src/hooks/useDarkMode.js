@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react'
 
 const STORAGE_KEY = 'gastos-app-dark-mode'
 
+// No stored preference yet (new user/session) defaults to dark rather than
+// following the OS preference, so the always-dark Login screen doesn't hand
+// off to a jarring white flash on first run.
 function getInitialDarkMode() {
   const stored = localStorage.getItem(STORAGE_KEY)
   if (stored !== null) return stored === 'true'
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
+  return true
 }
 
 export function useDarkMode() {
