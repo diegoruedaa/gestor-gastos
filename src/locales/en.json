@@ -91,7 +91,12 @@
     "noChange": "No change",
     "categoryBreakdown": "Spending by category",
     "topCategories": "Top categories",
-    "trend": "Last {{count}} months",
+    "trend_one": "Last month",
+    "trend_other": "Last {{count}} months",
+    "trendRangeLabel": "Trend chart range",
+    "trendRangeOption": "{{count}}M",
+    "trendRangeIncrement": "Show one more month",
+    "trendRangeDecrement": "Show one fewer month",
     "noExpensesInRange": "No expenses in this period.",
     "topSubcategories": "Top subcategories"
   }

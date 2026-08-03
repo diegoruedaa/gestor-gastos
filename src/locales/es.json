@@ -91,7 +91,12 @@
     "noChange": "Sin cambios",
     "categoryBreakdown": "Gasto por categoría",
     "topCategories": "Categorías principales",
-    "trend": "Últimos {{count}} meses",
+    "trend_one": "Último mes",
+    "trend_other": "Últimos {{count}} meses",
+    "trendRangeLabel": "Rango del gráfico de tendencia",
+    "trendRangeOption": "{{count}}M",
+    "trendRangeIncrement": "Mostrar un mes más",
+    "trendRangeDecrement": "Mostrar un mes menos",
     "noExpensesInRange": "No hay gastos en este período.",
     "topSubcategories": "Subcategorías principales"
   }

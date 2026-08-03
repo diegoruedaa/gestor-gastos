@@ -21,8 +21,8 @@ import { CategoryDonutChart } from './CategoryDonutChart'
 import { CategoryFilter } from './CategoryFilter'
 import { DateRangeFilter } from './DateRangeFilter'
 import { MonthlyTrendChart } from './MonthlyTrendChart'
+import { TrendRangeSelector } from './TrendRangeSelector'
 
-const TREND_MONTHS = 6
 const TOP_CATEGORIES_LIMIT = 5
 
 function sumAmount(expenses) {
@@ -84,6 +84,7 @@ export function Dashboard({ onJumpToExpenses, refreshKey = null }) {
   const [monthOffset, setMonthOffset] = useState(0)
   const [customStart, setCustomStart] = useState(() => getMonthRange(0).start)
   const [customEnd, setCustomEnd] = useState(getTodayIso)
+  const [trendMonths, setTrendMonths] = useState(6)
 
   const monthRange = useMemo(() => getMonthRange(monthOffset), [monthOffset])
   const previousMonthRange = useMemo(() => getMonthRange(monthOffset - 1), [monthOffset])
@@ -135,7 +136,7 @@ export function Dashboard({ onJumpToExpenses, refreshKey = null }) {
     subcategoryId,
     enabled: mode === 'month',
   })
-  const trendRange = useMemo(() => getLastMonthsRange(TREND_MONTHS), [])
+  const trendRange = useMemo(() => getLastMonthsRange(trendMonths), [trendMonths])
   const {
     expenses: trendExpenses,
     loading: trendLoading,
@@ -181,7 +182,7 @@ export function Dashboard({ onJumpToExpenses, refreshKey = null }) {
 
   const trendData = useMemo(() => {
     const buckets = []
-    for (let i = TREND_MONTHS - 1; i >= 0; i -= 1) {
+    for (let i = trendMonths - 1; i >= 0; i -= 1) {
       const range = getMonthRange(-i)
       buckets.push({ key: getMonthKey(range.start), label: formatIsoDate(range.start, locale, { month: 'short' }), total: 0 })
     }
@@ -191,7 +192,7 @@ export function Dashboard({ onJumpToExpenses, refreshKey = null }) {
       if (bucket) bucket.total += expense.amount
     }
     return buckets
-  }, [trendExpenses, locale])
+  }, [trendExpenses, locale, trendMonths])
 
   const comparisonAvailable = mode === 'month' && !previousLoading
   const delta = totalSpent - previousTotal
@@ -351,10 +352,13 @@ export function Dashboard({ onJumpToExpenses, refreshKey = null }) {
       ) : null}
 
       <Card>
-        <h3 className="mb-4 text-sm font-semibold text-neutral-700 dark:text-neutral-200">
-          {t('dashboard.trend', { count: TREND_MONTHS })}
-          {filterEntityLabel ? ` · ${filterEntityLabel}` : ''}
-        </h3>
+        <div className="mb-4 flex items-center justify-between gap-2">
+          <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-200">
+            {t('dashboard.trend', { count: trendMonths })}
+            {filterEntityLabel ? ` · ${filterEntityLabel}` : ''}
+          </h3>
+          <TrendRangeSelector months={trendMonths} onChange={setTrendMonths} />
+        </div>
         {trendLoading ? (
           <div className="flex h-64 items-center justify-center">
             <Loader2 className="animate-spin text-neutral-400" size={22} />

@@ -47,7 +47,7 @@ export function MonthlyTrendChart({ data, locale, isDark }) {
             cursor={{ stroke: gridColor, strokeWidth: 1 }}
           />
           <Line
-            type="monotone"
+            type="linear"
             dataKey="total"
             stroke={LINE_COLOR}
             strokeWidth={2}
